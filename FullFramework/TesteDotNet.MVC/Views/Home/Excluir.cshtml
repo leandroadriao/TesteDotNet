@@ -1,8 +1,10 @@
 ﻿@model TesteDotNetXP.MVC.Models.Item
+
 @{
-    ViewBag.Title = "Detalhe";
+    ViewBag.Title = "Excluir";
 }
-<h3 class="page-header">Detalhe do Item</h3>
+
+<h3 class="page-header">Exclusão do Item</h3>
 
 <div class="row">
     <div class="form-group col-md-8">
@@ -30,9 +32,13 @@
 </div>
 
 <hr />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
 <div id="actions" class="row">
     <div class="col-md-12">
         @Html.ActionLink("Voltar", "Index", "Home", null, new { @class = "btn btn-default " })
-        @Html.ActionLink("Editar", "Editar", new { id = Model.Codigo }, new { @class = "btn btn-primary" })
+        <input type="submit" value="Excluir" class="btn btn-primary" onclick="return confirm('Tem certeza que deseja excluir o fundo?');" />
     </div>
 </div>
+}
