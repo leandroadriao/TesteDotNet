@@ -9,7 +9,7 @@ namespace TesteDotNetXP.MVC.DAL
 {
     public interface Iitem
     {
-        int Insere(Item item);
+        bool Insere(Item item);
         Item Detalhe(int id);
         IEnumerable<Item> Lista();
         IEnumerable<Item> Lista(string search, string search2);

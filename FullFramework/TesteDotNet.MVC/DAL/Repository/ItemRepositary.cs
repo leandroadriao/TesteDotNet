@@ -1,40 +1,66 @@
 
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 using TesteDotNetXP.MVC.Models;
 
 namespace TesteDotNetXP.MVC.DAL
 {
     public class ItemRepositary : Iitem
     {
+        ItemContext db = new ItemContext();
         public Item Detalhe(int id)
         {
-            throw new NotImplementedException();
+            return db.Items.Find(id);
         }
 
         public bool Editar(Item item)
         {
-            throw new NotImplementedException();
+            db.Entry(item).State = EntityState.Modified;
+            db.SaveChanges();
+            return true;
         }
 
         public bool Excluir(int id)
         {
-            throw new NotImplementedException();
+            Item item = db.Items.Find(id);
+            db.Items.Remove(item);
+            db.SaveChanges();
+            return true;
         }
 
-        public int Insere(Item item)
+        public bool Insere(Item item)
         {
-            throw new NotImplementedException();
+            if (db.Items.ToList().Where(x => x.Nome.Contains(item.Nome)).Count() > 0)
+                return false;
+
+            item.Data = DateTime.Now;
+            db.Items.Add(item);
+            db.SaveChanges();
+            return true;
         }
 
         public IEnumerable<Item> Lista()
         {
-            throw new NotImplementedException();
+            return db.Items.ToList().OrderBy(x => x.Nome);
         }
 
         public IEnumerable<Item> Lista(string search, string search2)
         {
-            throw new NotImplementedException();
+            List<Item> ListaItems = new List<Item>();
+
+            if (string.IsNullOrEmpty(search) && string.IsNullOrEmpty(search2))
+                return (db.Items.ToList().OrderBy(x => x.Nome));
+
+            if (!string.IsNullOrEmpty(search))
+                return (db.Items.ToList().Where(x => x.Nome.Contains(search)).OrderBy(x => x.Nome));
+
+            ListaItems.AddRange(db.Items.ToList().Where(x => x.Codigo.ToString().Contains(search2)));
+            ListaItems.AddRange(db.Items.ToList().Where(x => x.Nome.Contains(search2)));
+            ListaItems.AddRange(db.Items.ToList().Where(x => x.Categoria.Contains(search2)));
+            ListaItems.AddRange(db.Items.ToList().Where(x => x.Data.ToShortDateString().Contains(search2)));
+            return (ListaItems.Union(ListaItems).OrderBy(x => x.Nome));
         }
     }
 }

@@ -35,13 +35,13 @@ namespace TesteDotNet.MVC.UnitTest
             // Simply executing a method during a unit test does just that - executes a method, and no more. 
             // The MVC pipeline doesn't run, so binding and validation don't run.
           
-            Item item1 = new Item("Renda Fixa", "Item 1");
+            Item item1 = new Item("Item 1", "Item 1");
 
             // Act
             ViewResult result = (ViewResult)controller.Cadastro(item1);
 
             // Assert
-            Assert.AreEqual("CadastroExistente", result.ViewName);
+            Assert.AreEqual("Cadastro", result.ViewName);
         }
 
         [TestMethod]

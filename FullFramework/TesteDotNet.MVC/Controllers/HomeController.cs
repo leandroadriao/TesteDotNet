@@ -23,13 +23,21 @@ namespace TesteDotNet.MVC.Controllers
         //private ItemContext db = new ItemContext();
         public ActionResult Index()
         {
-            return View(_item.Lista());
+            IEnumerable<Item> ListaItems = _item.Lista();
+            if (ListaItems.ToList().Count == 0)
+                this.ShowMessage("Nenhum item cadastrado!");
+
+            return View(ListaItems);
         }
 
         [HttpPost]
         public ActionResult Index(string search, string search2)
         {
-            return View(_item.Lista(search, search2));
+            IEnumerable<Item> ListaItems = _item.Lista(search, search2);
+            if (ListaItems.ToList().Count == 0)
+                this.ShowMessage("Nenhum resultado para pesquisa!");
+
+            return View(ListaItems);
         }
 
         public ActionResult Cadastro()
@@ -42,26 +50,24 @@ namespace TesteDotNet.MVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Cadastro([Bind(Include = "Codigo,Nome,Descricao,Categoria,Data")] Item item)
         {
-            int retorno;
+            
             ViewBag.Message = false;
             if (ModelState.IsValid)
             {
-                retorno = _item.Insere(item);
 
-                if (retorno == 0)
+                if (!_item.Insere(item))
                 {
                     this.ShowMessage("Já existe um Item com este nome!");
                     ViewBag.Message = true;
-                    return View("CadastroExistente", item);
+                    return View("Cadastro", item);
                 }
-                else if (retorno == 1)
+                else
                 {
                     this.ShowMessage("Cadastro do item, realizado com sucesso!");
                     ViewBag.Message = true;
                     return RedirectToAction("Index");
                 }
-                else
-                    return View(item);
+
             }
 
             return View(item);
