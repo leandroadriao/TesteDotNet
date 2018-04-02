@@ -71,7 +71,7 @@ namespace TesteDotNet.MVC.UnitTest
         }
 
         [TestMethod]
-        public void Excluir()
+        public void TesteExcluir()
         {
             // Arrange
             HomeController controller = new HomeController();

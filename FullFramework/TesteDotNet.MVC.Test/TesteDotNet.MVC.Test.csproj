@@ -101,6 +101,17 @@
       <Name>TesteDotNet.MVC</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\TesteDotNet.MVC\App_Data\DBTesteDotNet.ldf">
+      <Link>DBTesteDotNet.ldf</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>DBTesteDotNet.mdf</DependentUpon>
+    </Content>
+    <Content Include="..\TesteDotNet.MVC\App_Data\DBTesteDotNet.mdf">
+      <Link>DBTesteDotNet.mdf</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

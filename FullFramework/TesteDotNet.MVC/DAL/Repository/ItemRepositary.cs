@@ -32,7 +32,7 @@ namespace TesteDotNetXP.MVC.DAL
 
         public bool Insere(Item item)
         {
-            if (db.Items.ToList().Where(x => x.Nome.Contains(item.Nome)).Count() > 0)
+            if (db.Items.ToList().Where(x => x.Nome.ToLower().Contains(item.Nome.ToLower())).Count() > 0)
                 return false;
 
             item.Data = DateTime.Now;
@@ -54,11 +54,11 @@ namespace TesteDotNetXP.MVC.DAL
                 return (db.Items.ToList().OrderBy(x => x.Nome));
 
             if (!string.IsNullOrEmpty(search))
-                return (db.Items.ToList().Where(x => x.Nome.Contains(search)).OrderBy(x => x.Nome));
+                return (db.Items.ToList().Where(x => x.Nome.ToLower().Contains(search.ToLower())).OrderBy(x => x.Nome));
 
             ListaItems.AddRange(db.Items.ToList().Where(x => x.Codigo.ToString().Contains(search2)));
-            ListaItems.AddRange(db.Items.ToList().Where(x => x.Nome.Contains(search2)));
-            ListaItems.AddRange(db.Items.ToList().Where(x => x.Categoria.Contains(search2)));
+            ListaItems.AddRange(db.Items.ToList().Where(x => x.Nome.ToLower().Contains(search2.ToLower())));
+            ListaItems.AddRange(db.Items.ToList().Where(x => x.Categoria.ToLower().Contains(search2.ToLower())));
             ListaItems.AddRange(db.Items.ToList().Where(x => x.Data.ToShortDateString().Contains(search2)));
             return (ListaItems.Union(ListaItems).OrderBy(x => x.Nome));
         }
